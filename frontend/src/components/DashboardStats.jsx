@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { API_BASE_URL } from '../api';
 
 export default function DashboardStats() {
   const [stats, setStats] = useState(null);
@@ -10,7 +11,7 @@ export default function DashboardStats() {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem('adminToken');
-        const res = await axios.get('http://localhost:5000/api/stats', {
+        const res = await axios.get(`${API_BASE_URL}/api/stats`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setStats(res.data);

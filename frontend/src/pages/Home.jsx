@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Calendar, MapPin, ArrowRight, Trophy, Users, Star, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
+import { API_BASE_URL } from '../api';
 
 export default function Home() {
   const [upcomingEvent, setUpcomingEvent] = useState(null);
@@ -13,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/events/upcoming');
+        const res = await axios.get(`${API_BASE_URL}/api/events/upcoming`);
         if (res.data) setUpcomingEvent(res.data);
       } catch (err) {
         console.error('Error fetching event:', err);

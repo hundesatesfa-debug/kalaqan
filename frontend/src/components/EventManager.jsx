@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Edit2, Trash2, Calendar as CalendarIcon, MapPin } from 'lucide-react';
+import { API_BASE_URL } from '../api';
 
 export default function EventManager() {
   const [events, setEvents] = useState([]);
@@ -15,7 +16,7 @@ export default function EventManager() {
 
   const fetchEvents = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/events');
+      const res = await axios.get(`${API_BASE_URL}/api/events`);
       setEvents(res.data);
     } catch (err) {
       console.error(err);
@@ -48,9 +49,9 @@ export default function EventManager() {
       const headers = { Authorization: `Bearer ${token}` };
       
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/events/${editingId}`, formData, { headers });
+        await axios.put(`${API_BASE_URL}/api/events/${editingId}`, formData, { headers });
       } else {
-        await axios.post('http://localhost:5000/api/events', formData, { headers });
+        await axios.post(`${API_BASE_URL}/api/events`, formData, { headers });
       }
       
       setIsModalOpen(false);
@@ -64,7 +65,7 @@ export default function EventManager() {
     if (!window.confirm('Are you sure you want to delete this event?')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:5000/api/events/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchEvents();

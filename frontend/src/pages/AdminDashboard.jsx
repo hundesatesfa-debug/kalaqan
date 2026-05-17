@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Users, BarChart3, Calendar, LogOut, Menu, X, Bell } from 'lucide-react';
 import { io } from 'socket.io-client';
+import { API_BASE_URL } from '../api';
 
 import ApplicantsList from '../components/ApplicantsList';
 import DashboardStats from '../components/DashboardStats';
@@ -19,7 +20,7 @@ export default function AdminDashboard() {
       navigate('/admin/login');
     }
 
-    const socket = io('http://localhost:5000');
+    const socket = io(API_BASE_URL);
     socket.on('new_applicant', (data) => {
       setNotifications(prev => prev + 1);
       // Could also add a toast notification here

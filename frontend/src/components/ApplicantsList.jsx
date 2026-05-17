@@ -4,6 +4,7 @@ import { Search, Filter, Download, Trash2, CheckCircle, XCircle } from 'lucide-r
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { API_BASE_URL } from '../api';
 
 export default function ApplicantsList({ onClearNotifications }) {
   const [applicants, setApplicants] = useState([]);
@@ -19,7 +20,7 @@ export default function ApplicantsList({ onClearNotifications }) {
   const fetchApplicants = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get('http://localhost:5000/api/applicants', {
+      const res = await axios.get(`${API_BASE_URL}/api/applicants`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setApplicants(res.data);
@@ -33,7 +34,7 @@ export default function ApplicantsList({ onClearNotifications }) {
   const updateStatus = async (id, status) => {
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.patch(`http://localhost:5000/api/applicants/${id}/status`, { status }, {
+      await axios.patch(`${API_BASE_URL}/api/applicants/${id}/status`, { status }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchApplicants();
@@ -46,7 +47,7 @@ export default function ApplicantsList({ onClearNotifications }) {
     if (!window.confirm('Are you sure you want to delete this applicant?')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:5000/api/applicants/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/applicants/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchApplicants();

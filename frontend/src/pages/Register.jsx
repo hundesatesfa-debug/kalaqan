@@ -3,6 +3,7 @@ import axios from 'axios';
 import { CheckCircle, AlertCircle, ArrowRight, User, Phone, MapPin, Briefcase } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
+import { API_BASE_URL } from '../api';
 
 export default function Register() {
   const { t } = useLanguage();
@@ -21,7 +22,7 @@ export default function Register() {
   useEffect(() => {
     const checkEvent = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/events/upcoming');
+        const res = await axios.get(`${API_BASE_URL}/api/events/upcoming`);
         if (res.data) setEventOpen(res.data.isOpenForRegistration);
       } catch (err) {
         console.error(err);
@@ -38,7 +39,7 @@ export default function Register() {
     setStatus({ type: '', message: '' });
 
     try {
-      await axios.post('http://localhost:5000/api/applicants', formData);
+      await axios.post(`${API_BASE_URL}/api/applicants`, formData);
       setStatus({ type: 'success', message: t('successMsg') });
       setFormData({ fullName: '', phoneNumber: '', sex: '', age: '', location: '', occupation: '' });
     } catch (error) {
