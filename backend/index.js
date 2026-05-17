@@ -26,11 +26,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/applicants', require('./routes/applicants'));
-app.use('/api/events', require('./routes/events'));
-app.use('/api/stats', require('./routes/stats'));
+// Routes (register both clean path and proxy-prefixed paths for maximum robustness)
+const registerRoutes = (prefix = '') => {
+  app.use(`${prefix}/api/auth`, require('./routes/auth'));
+  app.use(`${prefix}/api/applicants`, require('./routes/applicants'));
+  app.use(`${prefix}/api/events`, require('./routes/events'));
+  app.use(`${prefix}/api/stats`, require('./routes/stats'));
+};
+
+registerRoutes('');
+registerRoutes('/_/backend');
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kalaqan').then(() => {
