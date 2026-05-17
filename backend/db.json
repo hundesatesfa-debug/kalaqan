@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "_id": "mock-admin-id",
+      "username": "admin",
+      "password": "pbkdf2_hashed_or_plain"
+    }
+  ],
+  "applicants": [],
+  "events": []
+}
